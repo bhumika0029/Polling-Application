@@ -1,19 +1,54 @@
+#spring:
+#  application:
+#    name: polling-app-server
+#
+#  datasource:
+#    # Use Environment Variable or default to localhost for local testing
+#    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/PollingAPP?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+#    username: ${SPRING_DATASOURCE_USERNAME:root}
+#    password: ${SPRING_DATASOURCE_PASSWORD:1234}
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#
+#  jpa:
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL8Dialect
+#    hibernate:
+#      ddl-auto: update
+#
+#  jackson:
+#    serialization:
+#      WRITE_DATES_AS_TIMESTAMPS: false
+#    time-zone: UTC
+#
+#app:
+#  # It is safer to use an env variable for the secret key too
+#  jwtSecret: ${JWT_SECRET:9a02115a835ee03d5fb83cd8a468ea33e4090aaaec87f53c9fa54512bbef4db8dc656c82a315fa0c785c08b0134716b81ddcd0153d2a7556f2e154912cf5675f}
+#  jwtExpirationInMs: 604800000
+#
+#  cors:
+#    allowedOrigins: http://localhost:3000
+
+
 spring:
   application:
     name: polling-app-server
 
   datasource:
-    # Use Environment Variable or default to localhost for local testing
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/PollingAPP?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
-    username: ${SPRING_DATASOURCE_USERNAME:root}
-    password: ${SPRING_DATASOURCE_PASSWORD:1234}
+    # UPDATE THE PASSWORD BELOW TO YOUR REAL LOCAL MYSQL PASSWORD
+    # If your password is just 'root' or empty, change it here.
+    url: ${DB_URL:jdbc:mysql://localhost:3306/PollingAPP?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:1234}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        # Fixed: Changed from MySQL8Dialect to MySQLDialect to stop the warning
+        dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
 
@@ -23,9 +58,8 @@ spring:
     time-zone: UTC
 
 app:
-  # It is safer to use an env variable for the secret key too
-  jwtSecret: ${JWT_SECRET:9a02115a835ee03d5fb83cd8a468ea33e4090aaaec87f53c9fa54512bbef4db8dc656c82a315fa0c785c08b0134716b81ddcd0153d2a7556f2e154912cf5675f}
+  jwtSecret: 9a02115a835ee03d5fb83cd8a468ea33e4090aaaec87f53c9fa54512bbef4db8dc656c82a315fa0c785c08b0134716b81ddcd0153d2a7556f2e154912cf5675f
   jwtExpirationInMs: 604800000
 
   cors:
-    allowedOrigins: http://localhost:3000
+    allowedOrigins: ${ALLOWED_ORIGINS:http://localhost:3000}
