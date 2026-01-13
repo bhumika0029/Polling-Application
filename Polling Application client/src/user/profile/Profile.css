@@ -1,0 +1,219 @@
+/* Page Layout */
+.profile {
+    padding: 20px 0;
+    background-color: #f6f8fa; /* Very light gray/blue tint */
+    min-height: calc(100vh - 64px);
+}
+
+.user-profile {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* 1. Header & Cover Photo */
+.user-profile-header {
+    background: #fff;
+    border-radius: 16px; /* Softer rounded corners */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 25px;
+    transition: transform 0.3s ease;
+}
+
+.user-cover-photo {
+    height: 200px;
+    /* Modern Mesh Gradient */
+    background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+    position: relative;
+}
+
+.user-details-container {
+    padding: 0 40px 30px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 2. Avatar Styling */
+.user-avatar-box {
+    margin-top: -75px; /* Pull up */
+    margin-bottom: 15px;
+    border: 6px solid #fff;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    /* background: #fff; */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.user-avatar-circle {
+    width: 128px;
+    height: 108px;
+    line-height: 108px;
+    font-size: 56px;
+    font-weight: 600;
+}
+
+/* 3. Typography */
+.user-info-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.full-name {
+    font-size: 32px;
+    font-weight: 800;
+    color: #2c3e50;
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+}
+
+.username {
+    font-size: 18px;
+    color: #7f8c8d;
+    margin: 5px 0 0;
+    font-weight: 500;
+}
+
+.user-meta-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.joined-date {
+    color: #95a5a6;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.joined-date .anticon {
+    margin-right: 6px;
+}
+
+.edit-profile-btn {
+    border-radius: 20px;
+    font-weight: 600;
+    border-color: #66a6ff;
+    color: #66a6ff;
+}
+
+/* 4. Stats Cards (Modern) */
+.user-stats-row {
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: #fff;
+    cursor: default;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.stat-content {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.stat-icon-bg {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    margin-right: 20px;
+}
+
+.stat-icon-bg.purple {
+    background: rgba(114, 46, 209, 0.1);
+    color: #722ed1;
+}
+
+.stat-icon-bg.green {
+    background: rgba(82, 196, 26, 0.1);
+    color: #52c41a;
+}
+
+.stat-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: #333;
+    line-height: 1;
+}
+
+.stat-title {
+    font-size: 14px;
+    color: #888;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* 5. Tabs Section */
+.user-poll-details {
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.profile-tabs .ant-tabs-bar {
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 25px;
+}
+
+.profile-tabs .ant-tabs-tab {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 24px;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .user-info-box {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .user-avatar-box {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .user-meta-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .stat-card {
+        margin-bottom: 15px;
+    }
+}

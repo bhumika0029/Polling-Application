@@ -1,0 +1,53 @@
+.polls-container {
+    max-width: 700px; /* Limits width for better readability */
+    margin: 0 auto;
+    padding-bottom: 40px;
+}
+
+/* Header with Refresh Button */
+.polls-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 5px;
+}
+
+.polls-header h3 {
+    margin: 0;
+    color: #555;
+    font-weight: 600;
+}
+
+/* Empty State */
+.no-polls-found {
+    margin-top: 60px;
+    padding: 40px;
+    background: #fff;
+    border-radius: 8px;
+    /* Optional: dashed border for empty state */
+    border: 2px dashed #e8e8e8; 
+    text-align: center;
+}
+
+/* Load More Button Container */
+.load-more-polls {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Animations */
+.polls-container > div {
+    animation: fadeInUp 0.5s ease-in-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
