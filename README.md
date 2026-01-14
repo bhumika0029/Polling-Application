@@ -27,7 +27,7 @@ A comprehensive, full-stack polling platform that allows users to create account
 
 | **Main Dashboard** |
 |:---:|
-| ![Main App Dashboard](./home.png) |
+| ![Main App Dashboard](./home%20(2).png) |
 
 ---
 
