@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { getAllPolls, getUserCreatedPolls, getUserVotedPolls, castVote } from '../util/APIUtils';
 import Poll from './Poll';
 import LoadingIndicator from '../common/LoadingIndicator';
-import { Button, Icon, notification } from 'antd'; 
+import { Button, Icon, notification, Card } from 'antd';
 import { POLL_LIST_SIZE } from '../constants';
 import { withRouter, Link } from 'react-router-dom';
 import './PollList.css';
@@ -111,49 +111,73 @@ const PollList = (props) => {
             });
     };
 
-    return (
-        <div className="polls-container">
-            {/* Header with Refresh Button */}
-            {!props.username && (
-                <div className="polls-header">
-                    <h3>Recent Polls</h3>
-                    <Button shape="circle" icon="reload" onClick={handleRefresh} title="Refresh Feed" />
-                </div>
-            )}
-
-            {polls.map((poll, index) => (
-                <Poll
-                    key={poll.id}
-                    poll={poll}
-                    currentVote={currentVotes[index]}
-                    handleVoteChange={(event) => handleVoteChange(event, index)}
-                    handleVoteSubmit={(event) => handleVoteSubmit(event, index)}
-                />
-            ))}
-
-            {/* Custom Empty State (No AntD Dependency) */}
-            {!isLoading && polls.length === 0 && (
-                <div className="no-polls-found">
-                    <Icon type="inbox" style={{ fontSize: '48px', color: '#ccc', marginBottom: '15px' }} />
-                    <div style={{ fontSize: '18px', marginBottom: '15px' }}>
-                        No polls found. Why not start one?
-                    </div>
+    // Hero Section for the main page (when not viewing a specific user's profile)
+    const renderHero = () => {
+        if (props.username) return null; // Don't show on profile pages
+        return (
+            <div className="hero-section">
+                <div className="hero-content">
+                    <h1 className="hero-title">Have a question?</h1>
+                    <p className="hero-subtitle">Ask the community and get real-time answers.</p>
                     <Link to="/poll/new">
-                        <Button type="primary" size="large">Create Poll</Button>
+                        <Button type="primary" size="large" shape="round" icon="plus">
+                            Create a Poll
+                        </Button>
                     </Link>
                 </div>
-            )}
+            </div>
+        );
+    };
 
-            {/* Load More Button */}
-            {!isLoading && !last && (
-                <div className="load-more-polls">
-                    <Button type="dashed" onClick={handleLoadMore} disabled={isLoading} block style={{height: '45px'}}>
-                        <Icon type="plus" /> Load more
-                    </Button>
-                </div>
-            )}
+    return (
+        <div className="poll-list-wrapper">
+            {renderHero()}
+            
+            <div className="polls-container">
+                {/* Header with Refresh Button */}
+                {!props.username && (
+                    <div className="polls-header-row">
+                        <h3 className="section-title">
+                            <Icon type="fire" theme="twoTone" twoToneColor="#eb2f96" /> Trending Polls
+                        </h3>
+                        <Button shape="circle" icon="reload" onClick={handleRefresh} title="Refresh Feed" />
+                    </div>
+                )}
 
-            {isLoading && <LoadingIndicator />}
+                {polls.map((poll, index) => (
+                    <Poll
+                        key={poll.id}
+                        poll={poll}
+                        currentVote={currentVotes[index]}
+                        handleVoteChange={(event) => handleVoteChange(event, index)}
+                        handleVoteSubmit={(event) => handleVoteSubmit(event, index)}
+                    />
+                ))}
+
+                {/* Custom Empty State */}
+                {!isLoading && polls.length === 0 && (
+                    <div className="no-polls-found">
+                        <Icon type="inbox" className="no-polls-icon" />
+                        <div className="no-polls-text">
+                            No polls found yet. <br/> Be the first to start a conversation!
+                        </div>
+                        <Link to="/poll/new">
+                            <Button type="primary" size="large">Create Poll</Button>
+                        </Link>
+                    </div>
+                )}
+
+                {/* Load More Button */}
+                {!isLoading && !last && (
+                    <div className="load-more-polls">
+                        <Button type="dashed" onClick={handleLoadMore} disabled={isLoading} block size="large">
+                            <Icon type="down-circle" /> Load more polls
+                        </Button>
+                    </div>
+                )}
+
+                {isLoading && <LoadingIndicator />}
+            </div>
         </div>
     );
 }

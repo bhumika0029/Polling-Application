@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PollList from '../../poll/PollList';
 import { getUserProfile } from '../../util/APIUtils';
-import { Avatar, Tabs, Button, Icon, Row, Col, Card } from 'antd';
+import { Avatar, Tabs, Icon, Row, Col, Card } from 'antd';
 import { getAvatarColor } from '../../util/Colors';
 import { formatDate } from '../../util/Helpers';
 import LoadingIndicator from '../../common/LoadingIndicator';
@@ -40,7 +40,6 @@ const Profile = (props) => {
         loadUserProfile(username);
     }, [props.match.params.username]);
 
-
     if (isLoading) return <LoadingIndicator />;
     if (notFound) return <NotFound />;
     if (serverError) return <ServerError />;
@@ -48,14 +47,15 @@ const Profile = (props) => {
     return (
         <div className="profile">
             {user ? (
-                <div className="user-profile">
+                <div className="user-profile-card">
                     
-                    {/* Header with Cover */}
-                    <div className="user-profile-header">
-                        <div className="user-cover-photo">
-                            {/* Optional: Add pattern or overlay here if needed */}
-                        </div>
-                        <div className="user-details-container">
+                    {/* New Header Structure with Overlap */}
+                    <div className="user-profile-header-wrapper">
+                        {/* Colored Cover Background */}
+                        <div className="user-cover-bg"></div>
+                        
+                        {/* Content container that overlaps the cover */}
+                        <div className="user-info-overlap-container">
                             <div className="user-avatar-box">
                                 <Avatar 
                                     className="user-avatar-circle" 
@@ -64,16 +64,12 @@ const Profile = (props) => {
                                     {user.name[0].toUpperCase()}
                                 </Avatar>
                             </div>
-                            <div className="user-info-box">
-                                <div className="user-main-info">
-                                    <h2 className="full-name">{user.name}</h2>
-                                    <p className="username">@{user.username}</p>
-                                </div>
-                                <div className="user-meta-info">
-                                    <span className="joined-date">
-                                        <Icon type="calendar" /> Joined {formatDate(user.joinedAt)}
-                                    </span>
-                                    <Button className="edit-profile-btn" icon="edit" ghost type="primary">Edit Profile</Button>
+                            <div className="user-names-container">
+                                <h2 className="full-name">{user.name}</h2>
+                                <p className="username">@{user.username}</p>
+                                <div className="user-joined-date">
+                                    <Icon type="calendar" style={{marginRight: '5px'}}/> 
+                                    Joined {formatDate(user.joinedAt)}
                                 </div>
                             </div>
                         </div>
@@ -81,11 +77,11 @@ const Profile = (props) => {
 
                     {/* Stats Row */}
                     <div className="user-stats-row">
-                        <Row gutter={16} type="flex" justify="center">
-                            <Col xs={24} sm={12} md={10}>
-                                <Card className="stat-card" bordered={false}>
+                        <Row gutter={24} type="flex" justify="center">
+                            <Col xs={24} sm={10} md={8}>
+                                <Card className="stat-card" bordered={false} hoverable>
                                     <div className="stat-content">
-                                        <div className="stat-icon-bg purple">
+                                        <div className="stat-icon-bg primary-blue">
                                             <Icon type="bar-chart" />
                                         </div>
                                         <div className="stat-text">
@@ -95,10 +91,10 @@ const Profile = (props) => {
                                     </div>
                                 </Card>
                             </Col>
-                            <Col xs={24} sm={12} md={10}>
-                                <Card className="stat-card" bordered={false}>
+                            <Col xs={24} sm={10} md={8}>
+                                <Card className="stat-card" bordered={false} hoverable>
                                     <div className="stat-content">
-                                        <div className="stat-icon-bg green">
+                                        <div className="stat-icon-bg success-teal">
                                             <Icon type="check-circle" />
                                         </div>
                                         <div className="stat-text">
