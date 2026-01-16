@@ -1,71 +1,76 @@
+/* Signup.css */
+
+/* Main Container: Centers the card vertically and horizontally */
 .signup-container {
-    min-height: calc(100vh - 64px);
-    background: #f0f2f5;
+    min-height: 100vh;
+    background-color: #f0f2f5; /* Light gray background */
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+    align-items: center; /* Vertical Center */
+    justify-content: center; /* Horizontal Center */
+    padding: 20px 0;
+}
+
+/* The White Card */
+.signup-content {
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-radius: 6px;
+    padding: 30px;
+    
+    /* Responsive Width Strategy */
+    width: 100%;
+    max-width: 450px; /* Slightly wider than login for more fields */
 }
 
 .page-title {
     font-size: 28px;
-    font-weight: 600;
+    font-weight: 500;
     color: #333;
     margin-bottom: 20px;
     text-align: center;
 }
 
-.signup-content {
-    background: #fff;
-    box-shadow: 0 4px 25px rgba(0,0,0,0.05);
-    border-radius: 8px;
-    width: 500px;
-    max-width: 100%;
-    padding: 40px;
-}
-
+/* Form Styles */
 .signup-form {
-    text-align: left;
+    margin-top: 10px;
 }
 
-/* Button Styling */
 .signup-form-button {
     width: 100%;
-    height: 45px;
+    height: 40px;
     font-size: 16px;
-    font-weight: 600;
-    margin-top: 10px;
-    border-radius: 4px; /* Slightly rounded */
-    background-color: #722ed1;
-    border-color: #722ed1;
-    box-shadow: 0 4px 15px rgba(114, 46, 209, 0.3);
-    transition: all 0.3s;
-}
-
-.signup-form-button:hover {
-    background-color: #531dab;
-    border-color: #531dab;
-    transform: translateY(-2px);
 }
 
 .login-link {
-    text-align: center;
     margin-top: 15px;
-    font-size: 15px;
+    text-align: center;
+    font-size: 14px;
 }
 
-/* Social Login Section */
-.social-login {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 10px;
-}
-
-/* Mobile Responsiveness */
+/* --- MOBILE RESPONSIVE TWEAKS --- */
 @media (max-width: 576px) {
+    .signup-container {
+        padding: 0; /* Remove outer padding */
+        background-color: #fff; /* White background for seamless look */
+        align-items: flex-start; /* Align to top */
+    }
+
     .signup-content {
-        padding: 25px;
-        width: 100%;
+        box-shadow: none; /* Remove shadow */
+        border-radius: 0;
+        padding: 30px 20px;
+        max-width: 100%; /* Full width */
+        min-height: 100vh;
+    }
+
+    .page-title {
+        margin-top: 20px;
+        font-size: 24px;
+    }
+
+    /* Make inputs taller for easier tapping */
+    .ant-input-lg {
+        height: 45px;
+        font-size: 16px;
     }
 }

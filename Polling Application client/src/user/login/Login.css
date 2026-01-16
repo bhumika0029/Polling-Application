@@ -1,86 +1,94 @@
-/* Container Background */
+/* Login.css */
+
+/* Main Container: Centers the card vertically and horizontally */
 .login-container {
-    min-height: calc(100vh - 64px);
-    background: #f0f2f5; /* Clean light gray background */
+    min-height: 100vh;
+    background-color: #f0f2f5; /* Light gray background */
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     padding: 20px;
 }
 
-/* Card Styling */
+/* The White Card */
 .login-content {
     background: #fff;
-    box-shadow: 0 4px 25px rgba(0,0,0,0.05);
-    border-radius: 8px;
-    width: 400px;
-    max-width: 100%;
-    padding: 40px;
-    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-radius: 6px;
+    padding: 40px 30px;
+    
+    /* Responsive Width Strategy */
+    width: 100%;
+    max-width: 400px; /* Limits width on desktop so it doesn't stretch too wide */
 }
 
 .page-title {
-    font-size: 24px;
-    font-weight: 600;
+    font-size: 28px;
+    font-weight: 500;
     color: #333;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .login-illustration {
+    text-align: center;
     margin-bottom: 30px;
-    background: #f9f0ff;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: auto;
-    margin-right: auto;
 }
 
-/* Form Elements */
+/* Form Styles */
 .login-form {
-    text-align: left;
+    margin-top: 20px;
 }
 
 .login-form-button {
     width: 100%;
-    height: 45px;
-    border-radius: 4px;
+    height: 40px;
     font-size: 16px;
-    font-weight: 500;
-    margin-top: 10px;
-    background-color: #722ed1;
-    border-color: #722ed1;
 }
 
-.login-form-button:hover {
-    background-color: #531dab;
-    border-color: #531dab;
-}
-
-/* Remember Me / Forgot Password */
 .remember-forgot-row {
     margin-bottom: 15px;
+    display: flex; /* Helps align checkbox and link */
+    justify-content: space-between;
+    align-items: center;
 }
 
+/* Checkbox and Link adjustments */
 .login-form-forgot {
-    color: #722ed1;
+    float: right;
+    color: #1890ff;
 }
 
-.login-form-forgot:hover {
-    color: #531dab;
-}
+/* --- MOBILE RESPONSIVE TWEAKS --- */
+@media (max-width: 576px) {
+    .login-container {
+        padding: 0; /* Remove outer padding to fill screen */
+        background-color: #fff; /* White background for seamless look */
+        align-items: flex-start; /* Align to top on mobile */
+    }
 
-/* Social Login */
-.social-login {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 10px;
-}
+    .login-content {
+        box-shadow: none; /* Remove shadow for flat mobile design */
+        border-radius: 0;
+        padding: 40px 20px; /* Slightly less side padding */
+        max-width: 100%; /* Fill full width */
+        min-height: 100vh; /* Ensure it covers the screen height */
+    }
 
-/* Input Styling */
-.ant-input {
-    height: 45px;
+    .page-title {
+        font-size: 24px;
+        margin-top: 20px;
+    }
+
+    /* Stack 'Remember me' and 'Forgot password' if screen is very narrow */
+    .remember-forgot-row {
+        flex-direction: row; 
+        flex-wrap: wrap;
+    }
+    
+    /* Ensure inputs are touch-friendly */
+    .ant-input-lg {
+        height: 45px;
+        font-size: 16px;
+    }
 }

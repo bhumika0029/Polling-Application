@@ -9,7 +9,7 @@ const RadioGroup = Radio.Group;
 
 const Poll = (props) => {
     
-    // 1. Helper Functions
+    // 1. Helper Functions (Unchanged)
     const calculatePercentage = (choice) => {
         if (props.poll.totalVotes === 0) return 0;
         return (choice.voteCount * 100) / props.poll.totalVotes;
@@ -44,9 +44,8 @@ const Poll = (props) => {
         return seconds + " seconds left";
     };
 
-    // 2. Feature: Share Poll Logic
+    // 2. Share Logic (Unchanged)
     const handleShare = () => {
-        // Copies current URL (or you can construct a specific one)
         const dummyUrl = `https://myapp.com/poll/${props.poll.id}`;
         navigator.clipboard.writeText(dummyUrl).then(() => {
             message.success("Link copied to clipboard!");
@@ -72,7 +71,8 @@ const Poll = (props) => {
     } else {
         props.poll.choices.forEach(choice => {
             pollChoices.push(
-                <Radio className="poll-choice-radio" key={choice.id} value={choice.id}>
+                // Added style={{whiteSpace: 'normal'}} to allow text wrapping inside Radio
+                <Radio className="poll-choice-radio" key={choice.id} value={choice.id} style={{ display: 'flex', alignItems: 'center', whiteSpace: 'normal', height: 'auto', padding: '10px' }}>
                     {choice.text}
                 </Radio>
             );
@@ -102,9 +102,10 @@ const Poll = (props) => {
                             </div>
                         </Link>
                     </div>
-                    {/* Feature: Status & Share */}
+                    
+                    {/* Actions container - handles wrapping via CSS */}
                     <div className="poll-actions">
-                        <Tag color={statusColor} style={{marginRight: 10}}>{expirationStatus}</Tag>
+                        <Tag color={statusColor}>{expirationStatus}</Tag>
                         <Tooltip title="Share this poll">
                             <Icon type="share-alt" className="share-icon" onClick={handleShare} />
                         </Tooltip>
@@ -126,10 +127,6 @@ const Poll = (props) => {
             </div>
 
             <div className="poll-footer">
-                {
-                    !(props.poll.selectedChoice || props.poll.expired) ?
-                        (<Button className="vote-button" type="primary" disabled={!props.currentVote} onClick={props.handleVoteSubmit}>Vote</Button>) : null
-                }
                 <div className="poll-footer-meta">
                     <span className="total-votes"><Icon type="bar-chart" /> {props.poll.totalVotes} votes</span>
                     <span className="separator">•</span>
@@ -140,12 +137,16 @@ const Poll = (props) => {
                         }
                     </span>
                 </div>
+                {
+                    !(props.poll.selectedChoice || props.poll.expired) &&
+                        (<Button className="vote-button" type="primary" disabled={!props.currentVote} onClick={props.handleVoteSubmit}>Vote</Button>)
+                }
             </div>
         </div>
     );
 }
 
-// 4. Enhanced Result Component with AntD Progress
+// 4. Result Component
 const CompletedOrVotedPollChoice = ({ choice, isWinner, isSelected, percentVote }) => {
     return (
         <div className={`cv-poll-choice ${isWinner ? 'winner' : ''}`}>
@@ -155,14 +156,13 @@ const CompletedOrVotedPollChoice = ({ choice, isWinner, isSelected, percentVote 
             </div>
             
             <div className="cv-progress-wrapper">
-                 {/* Feature: Smooth Progress Bar */}
                  <Progress 
                     percent={Math.round(percentVote * 100) / 100} 
                     status={isWinner ? "success" : "normal"}
                     strokeColor={isWinner ? "#52c41a" : "#1890ff"} 
                     strokeWidth={12}
-                    showInfo={true} // Shows the % automatically
-                 />
+                    showInfo={true}
+                  />
                  <div className="cv-choice-count">{choice.voteCount} votes</div>
             </div>
         </div>

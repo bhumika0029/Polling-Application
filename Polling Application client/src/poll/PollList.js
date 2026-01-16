@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { getAllPolls, getUserCreatedPolls, getUserVotedPolls, castVote } from '../util/APIUtils';
 import Poll from './Poll';
 import LoadingIndicator from '../common/LoadingIndicator';
-import { Button, Icon, notification, Card } from 'antd';
+import { Button, Icon, notification } from 'antd'; // Removed unused Card import
 import { POLL_LIST_SIZE } from '../constants';
 import { withRouter, Link } from 'react-router-dom';
 import './PollList.css';
@@ -14,7 +14,7 @@ const PollList = (props) => {
     const [currentVotes, setCurrentVotes] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    // Data Fetching Logic
+    // Data Fetching Logic (Unchanged)
     const loadPollList = useCallback((pageIndex = 0) => {
         let promise;
         if (props.username) {
@@ -49,12 +49,12 @@ const PollList = (props) => {
             });
     }, [props.username, props.type, polls, currentVotes]);
 
-    // Initial Load
+    // Initial Load (Unchanged)
     useEffect(() => {
         loadPollList(0);
     }, [props.isAuthenticated, props.username]); 
 
-    // Handlers
+    // Handlers (Unchanged)
     const handleLoadMore = () => {
         loadPollList(page + 1);
     };
@@ -111,9 +111,9 @@ const PollList = (props) => {
             });
     };
 
-    // Hero Section for the main page (when not viewing a specific user's profile)
+    // Hero Section for the main page
     const renderHero = () => {
-        if (props.username) return null; // Don't show on profile pages
+        if (props.username) return null;
         return (
             <div className="hero-section">
                 <div className="hero-content">
@@ -154,7 +154,7 @@ const PollList = (props) => {
                     />
                 ))}
 
-                {/* Custom Empty State */}
+                {/* Empty State */}
                 {!isLoading && polls.length === 0 && (
                     <div className="no-polls-found">
                         <Icon type="inbox" className="no-polls-icon" />

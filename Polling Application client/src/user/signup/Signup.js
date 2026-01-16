@@ -21,7 +21,7 @@ const Signup = (props) => {
     const [password, setPassword] = useState({ value: '', validateStatus: null, errorMsg: null });
     const [isLoading, setIsLoading] = useState(false);
 
-    // 2. Validation Functions
+    // 2. Validation Functions (Unchanged)
     const validateName = (nameValue) => {
         if(nameValue.length < NAME_MIN_LENGTH) {
             return { validateStatus: 'error', errorMsg: `Name is too short (Minimum ${NAME_MIN_LENGTH} characters needed.)` };
@@ -42,7 +42,7 @@ const Signup = (props) => {
         if(emailValue.length > EMAIL_MAX_LENGTH) {
             return { validateStatus: 'error', errorMsg: `Email is too long (Max ${EMAIL_MAX_LENGTH} chars)` };
         }
-        return { validateStatus: null, errorMsg: null };
+        return { validateStatus: 'success', errorMsg: null };
     };
 
     const validateUsername = (usernameValue) => {
@@ -51,7 +51,7 @@ const Signup = (props) => {
         } else if (usernameValue.length > USERNAME_MAX_LENGTH) {
             return { validateStatus: 'error', errorMsg: `Too long (Max ${USERNAME_MAX_LENGTH} chars)` };
         }
-        return { validateStatus: null, errorMsg: null };
+        return { validateStatus: 'success', errorMsg: null };
     };
 
     const validatePassword = (passwordValue) => {
@@ -63,7 +63,7 @@ const Signup = (props) => {
         return { validateStatus: 'success', errorMsg: null };
     };
 
-    // 3. Async Availability Checks
+    // 3. Async Availability Checks (Unchanged)
     const validateUsernameAvailability = async () => {
         const usernameValue = username.value;
         const validation = validateUsername(usernameValue);
@@ -157,7 +157,7 @@ const Signup = (props) => {
                  password.validateStatus === 'success');
     };
 
-    // Feature: Calculate Password Strength (Simple)
+    // Feature: Calculate Password Strength
     const getPasswordStrength = () => {
         const len = password.value.length;
         if (len === 0) return 0;
@@ -175,8 +175,8 @@ const Signup = (props) => {
 
     return (
         <div className="signup-container">
-            <h1 className="page-title">Create Account</h1>
             <div className="signup-content">
+                <h1 className="page-title">Create Account</h1>
                 <Form onSubmit={handleSubmit} className="signup-form">
                     <FormItem 
                         label="Full Name"
@@ -238,7 +238,6 @@ const Signup = (props) => {
                             value={password.value} 
                             onChange={(e) => handleInputChange(e, validatePassword, setPassword)} />
                         
-                        {/* Feature: Password Strength Meter */}
                         {password.value.length > 0 && (
                             <div style={{ marginTop: '5px' }}>
                                 <Progress 
@@ -259,7 +258,11 @@ const Signup = (props) => {
                             size="large" 
                             className="signup-form-button"
                             loading={isLoading}
-                            disabled={isFormInvalid() || isLoading}>Sign Up</Button>
+                            disabled={isFormInvalid() || isLoading}
+                            block
+                        >
+                            Sign Up
+                        </Button>
                         <div className="login-link">
                             Already have an account? <Link to="/login">Login here!</Link>
                         </div>

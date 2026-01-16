@@ -8,20 +8,20 @@ const Option = Select.Option;
 const { TextArea } = Input;
 
 const NewPoll = (props) => {
-    // 1. State Management with Hooks
+    // 1. State Management
     const [question, setQuestion] = useState({
         text: '',
         validateStatus: 'success',
         errorMsg: null
     });
-    
+
     const [choices, setChoices] = useState([
         { text: '', validateStatus: 'success', errorMsg: null },
         { text: '', validateStatus: 'success', errorMsg: null }
     ]);
-    
+
     const [pollLength, setPollLength] = useState({ days: 1, hours: 0 });
-    const [isSubmitting, setIsSubmitting] = useState(false); // Feature: Loading state
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     // 2. Validation Logic
     const validateQuestion = (text) => {
@@ -83,7 +83,7 @@ const NewPoll = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setIsSubmitting(true); // Start loading
+        setIsSubmitting(true);
 
         const pollData = {
             question: question.text,
@@ -96,7 +96,7 @@ const NewPoll = (props) => {
                 props.history.push("/");
             })
             .catch(error => {
-                setIsSubmitting(false); // Stop loading on error
+                setIsSubmitting(false);
                 if (error.status === 401) {
                     props.handleLogout('/login', 'error', 'You have been logged out.');
                 } else {
@@ -129,7 +129,6 @@ const NewPoll = (props) => {
                                 value={question.text}
                                 onChange={handleQuestionChange} 
                             />
-                            {/* Feature: Character Count */}
                             <div className="char-count">
                                 {question.text.length} / {POLL_QUESTION_MAX_LENGTH}
                             </div>
@@ -162,36 +161,44 @@ const NewPoll = (props) => {
                         </Form.Item>
                     </div>
 
-                    {/* Poll Length Section */}
+                    {/* Poll Length Section - RESPONSIVE UPDATE */}
                     <div className="form-section">
-                         <Row type="flex" align="middle" gutter={16}>
-                             <Col>
-                                <span className="form-label">Poll Duration:</span>
+                        {/* Gutter: [Horizontal, Vertical] spacing. 
+                            Uses Ant Design's Responsive Grid (xs, sm) */}
+                        <Row type="flex" align="middle" gutter={[16, 16]}>
+                            
+                            {/* Label: Full width on mobile (xs=24), 1/3 width on tablet+ (sm=8) */}
+                            <Col xs={24} sm={8}>
+                                <span className="form-label" style={{ marginBottom: 0 }}>Poll Duration:</span>
                                 <Tooltip title="The poll will automatically close after this time.">
                                      <Icon type="question-circle-o" style={{ marginLeft: 5, color: '#999' }} />
                                 </Tooltip>
-                             </Col>
-                             <Col>
+                            </Col>
+
+                            {/* Days Select: Half width on mobile (xs=12), 1/3 on tablet+ (sm=8) */}
+                            <Col xs={12} sm={8}>
                                 <Select 
                                     name="days" 
                                     value={pollLength.days} 
                                     onChange={handlePollDaysChange} 
-                                    style={{ width: 80 }}
+                                    style={{ width: '100%' }} // Fills the column width
                                 >
                                     {Array.from(Array(8).keys()).map(i => <Option key={i} value={i}>{i} Days</Option>)}
                                 </Select>
-                             </Col>
-                             <Col>
+                            </Col>
+
+                            {/* Hours Select: Half width on mobile (xs=12), 1/3 on tablet+ (sm=8) */}
+                            <Col xs={12} sm={8}>
                                 <Select 
                                     name="hours" 
                                     value={pollLength.hours} 
                                     onChange={handlePollHoursChange} 
-                                    style={{ width: 80 }}
+                                    style={{ width: '100%' }} // Fills the column width
                                 >
                                     {Array.from(Array(24).keys()).map(i => <Option key={i} value={i}>{i} Hours</Option>)}
                                 </Select>
-                             </Col>
-                         </Row>
+                            </Col>
+                        </Row>
                     </div>
 
                     <Form.Item className="poll-form-row" style={{ marginTop: '30px' }}>
@@ -231,9 +238,8 @@ const PollChoice = ({ choice, choiceNumber, removeChoice, handleChoiceChange }) 
             {choiceNumber > 1 && (
                 <Icon
                     className="dynamic-delete-button"
-                    type="close-circle" // Feature: Better remove icon
+                    type="close-circle"
                     theme="filled"
-                    style={{ fontSize: '20px', marginLeft: '10px', color: '#ff4d4f', cursor: 'pointer' }}
                     onClick={() => removeChoice(choiceNumber)}
                 />
             )}

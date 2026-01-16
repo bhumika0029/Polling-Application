@@ -77,7 +77,10 @@ const Profile = (props) => {
 
                     {/* Stats Row */}
                     <div className="user-stats-row">
-                        <Row gutter={24} type="flex" justify="center">
+                        {/* Use justify="center" to center cards on desktop */}
+                        <Row gutter={[24, 24]} type="flex" justify="center">
+                            
+                            {/* Polls Created Card */}
                             <Col xs={24} sm={10} md={8}>
                                 <Card className="stat-card" bordered={false} hoverable>
                                     <div className="stat-content">
@@ -91,6 +94,8 @@ const Profile = (props) => {
                                     </div>
                                 </Card>
                             </Col>
+
+                            {/* Votes Cast Card */}
                             <Col xs={24} sm={10} md={8}>
                                 <Card className="stat-card" bordered={false} hoverable>
                                     <div className="stat-content">

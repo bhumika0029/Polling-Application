@@ -1,71 +1,75 @@
+/* PollList.css */
+
 .poll-list-wrapper {
-    width: 100%;
-    max-width: 800px; /* Slightly wider for the hero */
-    margin: 0 auto;
+    min-height: 100vh;
+    background-color: #f0f2f5; /* Light gray background for the whole page */
+    padding-bottom: 50px;
 }
 
-.polls-container {
-    max-width: 600px; /* Keep actual polls column focused */
-    margin: 0 auto;
-    padding: 0 15px;
-}
-
-/* --- Hero Section --- */
+/* --- 1. Hero Section Styles --- */
 .hero-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 12px;
-    padding: 40px 20px;
-    margin-bottom: 30px;
+    background: #fff;
+    padding: 60px 20px;
     text-align: center;
-    color: white;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 30px;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .hero-title {
-    color: white;
-    font-size: 2.5rem;
+    font-size: 36px;
     font-weight: 700;
+    color: #2c3e50;
     margin-bottom: 10px;
 }
 
 .hero-subtitle {
-    font-size: 1.1rem;
-    opacity: 0.9;
-    margin-bottom: 25px;
+    font-size: 18px;
+    color: #7f8c8d;
+    margin-bottom: 30px;
 }
 
-/* --- Feed Header --- */
+/* --- 2. Polls Feed Container --- */
+/* This limits the width on desktop so it looks like a Twitter/FB feed */
+.polls-container {
+    max-width: 700px; 
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Row (Title + Refresh Button) */
 .polls-header-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    padding: 0 5px;
 }
 
 .section-title {
-    margin: 0;
-    font-size: 1.25rem;
+    font-size: 20px;
     font-weight: 600;
     color: #333;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between icon and text */
 }
 
-.section-title .anticon {
-    margin-right: 8px;
-}
-
-/* --- Empty State --- */
+/* --- 3. Empty State Styles --- */
 .no-polls-found {
     text-align: center;
     padding: 60px 20px;
-    background: #f9f9f9;
+    background: #fff;
     border-radius: 8px;
-    border: 2px dashed #e8e8e8;
-    margin-top: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .no-polls-icon {
-    font-size: 64px;
+    font-size: 60px;
     color: #d9d9d9;
     margin-bottom: 20px;
 }
@@ -73,24 +77,45 @@
 .no-polls-text {
     font-size: 18px;
     color: #595959;
-    margin-bottom: 25px;
-    line-height: 1.6;
+    margin-bottom: 30px;
+    line-height: 1.5;
 }
 
-/* --- Load More --- */
+/* --- 4. Load More Button --- */
 .load-more-polls {
-    margin: 30px 0 50px;
+    margin-top: 20px;
     text-align: center;
 }
 
-.load-more-polls button {
-    height: 50px;
-    font-size: 16px;
-    color: #666;
-    border-color: #d9d9d9;
-}
+/* --- MOBILE RESPONSIVE QUERIES --- */
+@media (max-width: 576px) {
+    /* Hero Section Tweaks */
+    .hero-section {
+        padding: 40px 20px;
+        margin-bottom: 20px;
+    }
 
-.load-more-polls button:hover {
-    color: #1890ff;
-    border-color: #1890ff;
+    .hero-title {
+        font-size: 28px; /* Smaller title on mobile */
+    }
+
+    .hero-subtitle {
+        font-size: 16px;
+    }
+
+    /* Container Tweaks */
+    .polls-container {
+        width: 100%;
+        padding: 0 15px; /* Smaller side padding on mobile */
+    }
+
+    .section-title {
+        font-size: 18px;
+    }
+    
+    /* Ensure buttons are easy to tap */
+    .load-more-polls button {
+        height: 45px;
+        font-size: 16px;
+    }
 }

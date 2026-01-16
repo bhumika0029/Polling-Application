@@ -20,12 +20,12 @@ const Login = (props) => {
 }
 
 const LoginForm = (props) => {
-    // 1. State Management
+    // 1. State Management (Unchanged)
     const [usernameOrEmail, setUsernameOrEmail] = useState({ value: '', validateStatus: 'success', errorMsg: null });
     const [password, setPassword] = useState({ value: '', validateStatus: 'success', errorMsg: null });
     const [loading, setLoading] = useState(false);
 
-    // 2. Handlers
+    // 2. Handlers (Unchanged)
     const handleInputChange = (event, validationFun) => {
         const target = event.target;
         const inputName = target.name;
@@ -54,7 +54,6 @@ const LoginForm = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        // Basic Validation
         if(usernameOrEmail.value.length === 0 || password.value.length === 0) {
              notification.error({
                 message: 'Polling App',
@@ -125,12 +124,14 @@ const LoginForm = (props) => {
                 />
             </Form.Item>
 
-            {/* Feature: Remember Me & Forgot Password */}
-            <Form.Item className="remember-forgot-row">
-                <Checkbox style={{float: 'left'}}>Remember me</Checkbox>
-                <a className="login-form-forgot" href="#!" style={{float: 'right'}}>
-                    Forgot password?
-                </a>
+            {/* Feature: Remember Me & Forgot Password - Removed inline floats for Flexbox */}
+            <Form.Item style={{marginBottom: '15px'}}> 
+                <div className="remember-forgot-row">
+                    <Checkbox>Remember me</Checkbox>
+                    <a className="login-form-forgot" href="#!">
+                        Forgot password?
+                    </a>
+                </div>
             </Form.Item>
 
             <Form.Item style={{marginBottom: 0}}>
