@@ -9,19 +9,16 @@ const RadioGroup = Radio.Group;
 
 const Poll = (props) => {
     
-    // 1. Helper Functions (Unchanged)
     const calculatePercentage = (choice) => {
         if (props.poll.totalVotes === 0) return 0;
         return (choice.voteCount * 100) / props.poll.totalVotes;
     };
 
-    const isSelected = (choice) => {
-        return props.poll.selectedChoice === choice.id;
-    };
+    const isSelected = (choice) => props.poll.selectedChoice === choice.id;
 
     const getWinningChoice = () => {
-        return props.poll.choices.reduce((prevChoice, currentChoice) =>
-            currentChoice.voteCount > prevChoice.voteCount ? currentChoice : prevChoice,
+        return props.poll.choices.reduce((prev, curr) =>
+            curr.voteCount > prev.voteCount ? curr : prev,
             { voteCount: -Infinity }
         );
     };
@@ -29,40 +26,36 @@ const Poll = (props) => {
     const getTimeRemaining = (poll) => {
         const expirationTime = new Date(poll.expirationDateTime).getTime();
         const currentTime = new Date().getTime();
-        var difference_ms = expirationTime - currentTime;
+        const diff = expirationTime - currentTime;
 
-        if(difference_ms < 0) return "Expired";
+        if(diff < 0) return "Expired";
 
-        var seconds = Math.floor((difference_ms / 1000) % 60);
-        var minutes = Math.floor((difference_ms / 1000 / 60) % 60);
-        var hours = Math.floor((difference_ms / (1000 * 60 * 60)) % 24);
-        var days = Math.floor(difference_ms / (1000 * 60 * 60 * 24));
+        const seconds = Math.floor((diff / 1000) % 60);
+        const minutes = Math.floor((diff / 1000 / 60) % 60);
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
 
-        if (days > 0) return days + " days left";
-        if (hours > 0) return hours + " hours left";
-        if (minutes > 0) return minutes + " minutes left";
-        return seconds + " seconds left";
+        if (days > 0) return `${days}d left`;
+        if (hours > 0) return `${hours}h left`;
+        return `${minutes}m left`;
     };
 
-    // 2. Share Logic (Unchanged)
     const handleShare = () => {
-        const dummyUrl = `https://myapp.com/poll/${props.poll.id}`;
+        const dummyUrl = window.location.origin + `/poll/${props.poll.id}`;
         navigator.clipboard.writeText(dummyUrl).then(() => {
-            message.success("Link copied to clipboard!");
+            message.success("Link copied!");
         });
     };
 
-    // 3. Render Choices
     const pollChoices = [];
     if (props.poll.selectedChoice || props.poll.expired) {
-        const winningChoice = props.poll.expired ? getWinningChoice() : null;
-
+        const winningChoice = getWinningChoice();
         props.poll.choices.forEach(choice => {
             pollChoices.push(
                 <CompletedOrVotedPollChoice
                     key={choice.id}
                     choice={choice}
-                    isWinner={winningChoice && choice.id === winningChoice.id}
+                    isWinner={props.poll.expired && choice.id === winningChoice.id}
                     isSelected={isSelected(choice)}
                     percentVote={calculatePercentage(choice)}
                 />
@@ -71,44 +64,38 @@ const Poll = (props) => {
     } else {
         props.poll.choices.forEach(choice => {
             pollChoices.push(
-                // Added style={{whiteSpace: 'normal'}} to allow text wrapping inside Radio
-                <Radio className="poll-choice-radio" key={choice.id} value={choice.id} style={{ display: 'flex', alignItems: 'center', whiteSpace: 'normal', height: 'auto', padding: '10px' }}>
-                    {choice.text}
+                <Radio 
+                    className="poll-choice-radio" 
+                    key={choice.id} 
+                    value={choice.id}
+                >
+                    <span className="choice-text-wrap">{choice.text}</span>
                 </Radio>
             );
         });
     }
 
-    const expirationStatus = props.poll.expired ? "Closed" : "Active";
-    const statusColor = props.poll.expired ? "red" : "green";
-
     return (
         <div className="poll-content">
             <div className="poll-header">
-                <div className="poll-header-top">
-                    <div className="poll-creator-info">
-                        <Link className="creator-link" to={`/users/${props.poll.createdBy.username}`}>
-                            <Avatar className="poll-creator-avatar"
-                                style={{ backgroundColor: getAvatarColor(props.poll.createdBy.name) }} >
-                                {props.poll.createdBy.name[0].toUpperCase()}
-                            </Avatar>
-                            <div className="creator-details">
-                                <span className="poll-creator-name">
-                                    {props.poll.createdBy.name}
-                                </span>
-                                <span className="poll-creation-date">
-                                    {formatDateTime(props.poll.creationDateTime)}
-                                </span>
-                            </div>
-                        </Link>
-                    </div>
-                    
-                    {/* Actions container - handles wrapping via CSS */}
+                <div className="poll-creator-info">
+                    <Link className="creator-link" to={`/users/${props.poll.createdBy.username}`}>
+                        <Avatar 
+                            className="poll-creator-avatar"
+                            style={{ backgroundColor: getAvatarColor(props.poll.createdBy.name) }}
+                        >
+                            {props.poll.createdBy.name[0].toUpperCase()}
+                        </Avatar>
+                        <div className="creator-details">
+                            <span className="poll-creator-name">{props.poll.createdBy.name}</span>
+                            <span className="poll-creation-date">{formatDateTime(props.poll.creationDateTime)}</span>
+                        </div>
+                    </Link>
                     <div className="poll-actions">
-                        <Tag color={statusColor}>{expirationStatus}</Tag>
-                        <Tooltip title="Share this poll">
-                            <Icon type="share-alt" className="share-icon" onClick={handleShare} />
-                        </Tooltip>
+                        <Tag color={props.poll.expired ? "red" : "green"}>
+                            {props.poll.expired ? "Closed" : "Active"}
+                        </Tag>
+                        <Icon type="share-alt" className="share-icon" onClick={handleShare} />
                     </div>
                 </div>
 
@@ -121,52 +108,50 @@ const Poll = (props) => {
                 <RadioGroup
                     className="poll-choice-radio-group"
                     onChange={props.handleVoteChange}
-                    value={props.currentVote}>
+                    value={props.currentVote}
+                >
                     {pollChoices}
                 </RadioGroup>
             </div>
 
             <div className="poll-footer">
                 <div className="poll-footer-meta">
-                    <span className="total-votes"><Icon type="bar-chart" /> {props.poll.totalVotes} votes</span>
-                    <span className="separator">•</span>
-                    <span className="time-left">
-                        <Icon type="clock-circle-o" /> {
-                            props.poll.expired ? "Final results" :
-                                getTimeRemaining(props.poll)
-                        }
+                    <span className="meta-item"><Icon type="bar-chart" /> {props.poll.totalVotes} votes</span>
+                    <span className="meta-item">
+                        <Icon type="clock-circle-o" /> {props.poll.expired ? "Final results" : getTimeRemaining(props.poll)}
                     </span>
                 </div>
-                {
-                    !(props.poll.selectedChoice || props.poll.expired) &&
-                        (<Button className="vote-button" type="primary" disabled={!props.currentVote} onClick={props.handleVoteSubmit}>Vote</Button>)
-                }
+                {!(props.poll.selectedChoice || props.poll.expired) && (
+                    <Button 
+                        className="vote-button" 
+                        type="primary" 
+                        block
+                        disabled={!props.currentVote} 
+                        onClick={props.handleVoteSubmit}
+                    >
+                        Vote
+                    </Button>
+                )}
             </div>
         </div>
     );
 }
 
-// 4. Result Component
-const CompletedOrVotedPollChoice = ({ choice, isWinner, isSelected, percentVote }) => {
-    return (
-        <div className={`cv-poll-choice ${isWinner ? 'winner' : ''}`}>
-            <div className="cv-choice-header">
-                 <span className="cv-choice-text">{choice.text}</span>
-                 {isSelected && <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" style={{marginLeft: 8}}/>}
-            </div>
-            
-            <div className="cv-progress-wrapper">
-                 <Progress 
-                    percent={Math.round(percentVote * 100) / 100} 
-                    status={isWinner ? "success" : "normal"}
-                    strokeColor={isWinner ? "#52c41a" : "#1890ff"} 
-                    strokeWidth={12}
-                    showInfo={true}
-                  />
-                 <div className="cv-choice-count">{choice.voteCount} votes</div>
-            </div>
+const CompletedOrVotedPollChoice = ({ choice, isWinner, isSelected, percentVote }) => (
+    <div className={`cv-poll-choice ${isWinner ? 'winner' : ''}`}>
+        <div className="cv-choice-header">
+            <span className="cv-choice-text">
+                {choice.text}
+                {isSelected && <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" style={{marginLeft: 8}}/>}
+            </span>
+            <span className="cv-choice-count">{choice.voteCount} votes</span>
         </div>
-    );
-}
+        <Progress 
+            percent={Math.round(percentVote)} 
+            status={isWinner ? "success" : "normal"}
+            strokeWidth={10}
+        />
+    </div>
+);
 
 export default Poll;

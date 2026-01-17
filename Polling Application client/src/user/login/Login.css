@@ -1,94 +1,63 @@
-/* Login.css */
-
-/* Main Container: Centers the card vertically and horizontally */
 .login-container {
-    min-height: 100vh;
-    background-color: #f0f2f5; /* Light gray background */
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    min-height: 80vh; /* Centers form vertically in viewport */
     padding: 20px;
 }
 
-/* The White Card */
 .login-content {
     background: #fff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    border-radius: 6px;
-    padding: 40px 30px;
-    
-    /* Responsive Width Strategy */
+    padding: 30px;
     width: 100%;
-    max-width: 400px; /* Limits width on desktop so it doesn't stretch too wide */
+    max-width: 400px; /* Fixed width on desktop, 100% on mobile */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
-.page-title {
-    font-size: 28px;
-    font-weight: 500;
-    color: #333;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.login-illustration {
+.login-header {
     text-align: center;
     margin-bottom: 30px;
 }
 
-/* Form Styles */
-.login-form {
-    margin-top: 20px;
+.page-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
 }
 
-.login-form-button {
-    width: 100%;
-    height: 40px;
-    font-size: 16px;
+.input-icon {
+    color: rgba(0, 0, 0, .25);
 }
 
-.remember-forgot-row {
-    margin-bottom: 15px;
-    display: flex; /* Helps align checkbox and link */
+/* Flexbox Row for Remember/Forgot */
+.remember-forgot-container {
+    display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap; /* Allows stacking if text is too long on very small screens */
 }
 
-/* Checkbox and Link adjustments */
-.login-form-forgot {
-    float: right;
-    color: #1890ff;
+.register-link {
+    margin-top: 20px;
+    text-align: center;
 }
 
-/* --- MOBILE RESPONSIVE TWEAKS --- */
-@media (max-width: 576px) {
-    .login-container {
-        padding: 0; /* Remove outer padding to fill screen */
-        background-color: #fff; /* White background for seamless look */
-        align-items: flex-start; /* Align to top on mobile */
-    }
-
+/* Responsive Adjustments */
+@media (max-width: 480px) {
     .login-content {
-        box-shadow: none; /* Remove shadow for flat mobile design */
-        border-radius: 0;
-        padding: 40px 20px; /* Slightly less side padding */
-        max-width: 100%; /* Fill full width */
-        min-height: 100vh; /* Ensure it covers the screen height */
-    }
-
-    .page-title {
-        font-size: 24px;
-        margin-top: 20px;
-    }
-
-    /* Stack 'Remember me' and 'Forgot password' if screen is very narrow */
-    .remember-forgot-row {
-        flex-direction: row; 
-        flex-wrap: wrap;
+        padding: 20px;
+        box-shadow: none; /* Cleaner look for mobile browsers */
+        border: none;
     }
     
-    /* Ensure inputs are touch-friendly */
-    .ant-input-lg {
-        height: 45px;
-        font-size: 16px;
+    .page-title {
+        font-size: 24px;
+    }
+
+    .remember-forgot-container {
+        flex-direction: column; /* Stack on tiny screens */
+        align-items: flex-start;
+        gap: 10px;
     }
 }

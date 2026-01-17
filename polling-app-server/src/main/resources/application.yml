@@ -30,7 +30,8 @@
 #  cors:
 #    allowedOrigins: http://localhost:3000
 
-
+#server:
+#  port: 8001
 spring:
   application:
     name: polling-app-server

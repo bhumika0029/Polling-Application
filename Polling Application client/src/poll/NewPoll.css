@@ -1,95 +1,65 @@
-/* NewPoll.css */
-
-/* Main Container: Centers the card vertically and horizontally */
 .new-poll-container {
-    background-color: #f0f2f5;
-    min-height: 100vh;
-    padding: 40px 0;
-    display: flex;
-    justify-content: center;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
-/* The White Card: Now responsive */
 .new-poll-content {
     background: #fff;
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    
-    /* Responsive Width Strategy */
-    width: 100%;
-    max-width: 600px; /* Limits width on desktop so it doesn't look stretched */
-    margin: 0 20px;   /* Adds safety margins on small screens */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
 .page-title {
-    font-size: 24px;
-    font-weight: 500;
-    color: #333;
-    margin-bottom: 24px;
     text-align: center;
-}
-
-/* Form Sections */
-.form-section {
-    margin-bottom: 24px;
+    margin-bottom: 30px;
+    font-weight: 700;
 }
 
 .form-label {
     font-weight: 600;
-    color: #333;
-    margin-bottom: 8px;
-    display: inline-block;
+    color: #434343;
 }
 
-.poll-form-row {
-    margin-bottom: 10px;
-}
-
-/* Character Count */
 .char-count {
     text-align: right;
     font-size: 12px;
-    color: #999;
-    margin-top: 4px;
+    color: #bfbfbf;
 }
 
-/* Delete Icon responsiveness */
-.dynamic-delete-button {
-    cursor: pointer;
-    font-size: 24px;
-    color: #999;
-    transition: all 0.3s;
-    margin-left: 10px;
-    flex-shrink: 0; /* Prevents icon from squishing on small screens */
+.choice-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.dynamic-delete-button:hover {
+.delete-choice-icon {
+    font-size: 20px;
     color: #ff4d4f;
+    cursor: pointer;
+    transition: color 0.3s;
 }
 
-/* Mobile Media Query */
+.duration-section {
+    margin: 30px 0;
+    padding: 20px;
+    background: #fafafa;
+    border-radius: 8px;
+}
+
+/* Mobile Specific Tweaks */
 @media (max-width: 576px) {
     .new-poll-container {
-        padding: 0; /* Remove top/bottom padding to use full screen height */
-        background-color: #fff; /* White background on mobile looks cleaner */
+        margin: 10px auto;
+        padding: 0 10px;
     }
-
+    
     .new-poll-content {
-        box-shadow: none; /* Remove shadow for flat design on mobile */
         padding: 20px;
-        margin: 0; /* Full width */
-        border-radius: 0;
-        max-width: 100%;
     }
 
     .page-title {
-        font-size: 20px;
-        margin-bottom: 20px;
-    }
-    
-    /* Ensure inputs are tall enough to tap easily */
-    .ant-input, .ant-select-selection {
-        min-height: 40px; 
+        font-size: 24px;
     }
 }

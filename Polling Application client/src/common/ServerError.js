@@ -5,7 +5,6 @@ import { Button, Icon } from 'antd';
 
 const ServerError = () => {
     
-    // Feature: Reload the page to see if the server recovers
     const handleRetry = () => {
         window.location.reload();
     };
@@ -13,42 +12,39 @@ const ServerError = () => {
     return (
         <div className="server-error-page">
             <div className="server-error-content">
-                {/* 1. Thematic Illustration */}
+                {/* 1. Animated Illustration */}
                 <div className="server-icon-container">
                     <Icon type="cloud-sync" className="server-error-icon" />
                     <div className="server-shadow"></div>
                 </div>
 
-                {/* 2. Pulsing Title */}
-                <h1 className="server-error-title">
-                    500
-                </h1>
+                {/* 2. Text Content */}
+                <h1 className="server-error-title">500</h1>
                 
                 <div className="server-error-desc">
-                    Oops! Something went wrong at our Server.
-                    <br />
-                    It's not you, it's us. Please try again later.
+                    <strong>Oops! Something went wrong.</strong>
+                    <p>It's not you, it's us. The server encountered an internal error.</p>
                 </div>
                 
                 {/* 3. Action Buttons */}
                 <div className="server-error-buttons">
-                    {/* Feature: Retry Button */}
                     <Button 
                         type="primary" 
                         size="large" 
                         icon="reload" 
                         onClick={handleRetry}
-                        className="retry-btn"
+                        className="server-btn retry-btn"
                     >
                         Retry Connection
                     </Button>
 
-                    <Link to="/">
+                    <Link to="/" className="server-btn-link">
                         <Button 
-                            className="server-back-btn" 
+                            className="server-btn server-back-btn" 
                             size="large" 
                             ghost
                             type="primary"
+                            icon="home"
                         >
                             Back to Home
                         </Button>

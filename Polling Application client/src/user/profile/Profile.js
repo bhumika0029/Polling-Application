@@ -19,7 +19,6 @@ const Profile = (props) => {
 
     const loadUserProfile = (username) => {
         setIsLoading(true);
-
         getUserProfile(username)
             .then(response => {
                 setUser(response);
@@ -45,18 +44,13 @@ const Profile = (props) => {
     if (serverError) return <ServerError />;
 
     return (
-        <div className="profile">
+        <div className="profile-container">
             {user ? (
-                <div className="user-profile-card">
-                    
-                    {/* New Header Structure with Overlap */}
-                    <div className="user-profile-header-wrapper">
-                        {/* Colored Cover Background */}
+                <div className="user-profile-wrapper">
+                    <div className="user-profile-header-section">
                         <div className="user-cover-bg"></div>
-                        
-                        {/* Content container that overlaps the cover */}
-                        <div className="user-info-overlap-container">
-                            <div className="user-avatar-box">
+                        <div className="user-header-content">
+                            <div className="user-avatar-wrapper">
                                 <Avatar 
                                     className="user-avatar-circle" 
                                     style={{ backgroundColor: getAvatarColor(user.name) }}
@@ -64,47 +58,36 @@ const Profile = (props) => {
                                     {user.name[0].toUpperCase()}
                                 </Avatar>
                             </div>
-                            <div className="user-names-container">
+                            <div className="user-info-text">
                                 <h2 className="full-name">{user.name}</h2>
                                 <p className="username">@{user.username}</p>
                                 <div className="user-joined-date">
-                                    <Icon type="calendar" style={{marginRight: '5px'}}/> 
-                                    Joined {formatDate(user.joinedAt)}
+                                    <Icon type="calendar" /> Joined {formatDate(user.joinedAt)}
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Stats Row */}
-                    <div className="user-stats-row">
-                        {/* Use justify="center" to center cards on desktop */}
-                        <Row gutter={[24, 24]} type="flex" justify="center">
-                            
-                            {/* Polls Created Card */}
-                            <Col xs={24} sm={10} md={8}>
-                                <Card className="stat-card" bordered={false} hoverable>
-                                    <div className="stat-content">
-                                        <div className="stat-icon-bg primary-blue">
-                                            <Icon type="bar-chart" />
-                                        </div>
-                                        <div className="stat-text">
+                    <div className="user-stats-section">
+                        <Row gutter={[16, 16]} type="flex" justify="center">
+                            <Col xs={24} sm={12} md={8}>
+                                <Card className="stat-card" bordered={false}>
+                                    <div className="stat-flex">
+                                        <div className="stat-icon primary-blue"><Icon type="bar-chart" /></div>
+                                        <div className="stat-details">
                                             <div className="stat-value">{user.pollCount}</div>
-                                            <div className="stat-title">Polls Created</div>
+                                            <div className="stat-label">Polls Created</div>
                                         </div>
                                     </div>
                                 </Card>
                             </Col>
-
-                            {/* Votes Cast Card */}
-                            <Col xs={24} sm={10} md={8}>
-                                <Card className="stat-card" bordered={false} hoverable>
-                                    <div className="stat-content">
-                                        <div className="stat-icon-bg success-teal">
-                                            <Icon type="check-circle" />
-                                        </div>
-                                        <div className="stat-text">
+                            <Col xs={24} sm={12} md={8}>
+                                <Card className="stat-card" bordered={false}>
+                                    <div className="stat-flex">
+                                        <div className="stat-icon success-teal"><Icon type="check-circle" /></div>
+                                        <div className="stat-details">
                                             <div className="stat-value">{user.voteCount}</div>
-                                            <div className="stat-title">Votes Cast</div>
+                                            <div className="stat-label">Votes Cast</div>
                                         </div>
                                     </div>
                                 </Card>
@@ -112,17 +95,16 @@ const Profile = (props) => {
                         </Row>
                     </div>
 
-                    {/* Tabs Section */}
-                    <div className="user-poll-details">
-                        <Tabs defaultActiveKey="1" animated={false} size="large" className="profile-tabs">
+                    <div className="user-tabs-section">
+                        <Tabs defaultActiveKey="1" size="large" animated={false} className="profile-tabs">
                             <TabPane 
-                                tab={<span><Icon type="solution" /> Created Polls</span>} 
+                                tab={<span><Icon type="solution" /> <span className="tab-text">Created</span></span>} 
                                 key="1"
                             >
                                 <PollList username={props.match.params.username} type="USER_CREATED_POLLS" />
                             </TabPane>
                             <TabPane 
-                                tab={<span><Icon type="check-square" /> Voted Polls</span>} 
+                                tab={<span><Icon type="check-square" /> <span className="tab-text">Voted</span></span>} 
                                 key="2"
                             >
                                 <PollList username={props.match.params.username} type="USER_VOTED_POLLS" />

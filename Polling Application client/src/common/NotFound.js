@@ -7,35 +7,31 @@ const NotFound = () => {
     return (
         <div className="page-not-found">
             <div className="not-found-content">
-                {/* 1. Animated Illustration */}
+                {/* Animated Illustration */}
                 <div className="illustration-container">
                     <Icon type="frown" className="not-found-icon" />
                     <div className="shadow"></div>
                 </div>
 
-                {/* 2. Gradient Title */}
-                <h1 className="title">
-                    404
-                </h1>
-                
-                <div className="desc">
+                {/* Content */}
+                <h1 className="title">404</h1>
+                <p className="desc">
                     Oops! The page you're looking for doesn't exist.
-                </div>
+                </p>
                 
-                {/* 3. Action Buttons */}
+                {/* Action Buttons */}
                 <div className="action-buttons">
-                    <Link to="/">
-                        <Button className="go-back-btn" type="primary" size="large" icon="home">
-                            Back to Home
+                    <Link to="/" className="btn-wrapper">
+                        <Button className="go-back-btn" type="primary" size="large" icon="home" block>
+                            Go Home
                         </Button>
                     </Link>
                     
-                    {/* Feature: Secondary "Report" button */}
                     <Button 
-                        className="report-btn" 
+                        className="report-btn btn-wrapper" 
                         size="large" 
                         icon="warning"
-                        style={{ marginLeft: '10px' }}
+                        block
                     >
                         Report Issue
                     </Button>

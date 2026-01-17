@@ -1,47 +1,24 @@
 .page-not-found {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 80px 20px;
-    text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 60vh;
+    min-height: 80vh; /* Centers vertically in the viewport */
+    padding: 20px;
+    text-align: center;
+    background: #fff;
 }
 
-/* Container animation */
 .not-found-content {
-    animation: fadeInUp 0.8s ease-out;
+    max-width: 500px;
+    width: 100%;
 }
 
-/* 1. Icon Styling & Animation */
-.illustration-container {
-    position: relative;
-    margin-bottom: 20px;
-    animation: float 6s ease-in-out infinite;
-}
-
-.not-found-icon {
-    font-size: 100px;
-    color: #722ed1; /* Brand Purple */
-}
-
-/* A cute shadow that grows/shrinks with the float */
-.shadow {
-    width: 60px;
-    height: 10px;
-    background: rgba(0,0,0,0.1);
-    border-radius: 50%;
-    margin: 10px auto 0;
-    animation: shadowScale 6s ease-in-out infinite;
-}
-
-/* 2. Gradient Text for "404" */
+/* 404 Title with Gradient */
 .title {
     font-size: 80px;
-    font-weight: 800;
-    margin-bottom: 10px;
-    background: -webkit-linear-gradient(45deg, #722ed1, #1890ff);
+    font-weight: 900;
+    margin: 0;
+    background: linear-gradient(45deg, #722ed1, #1890ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     line-height: 1;
@@ -49,44 +26,64 @@
 
 .desc {
     font-size: 18px;
-    color: #666;
+    color: #595959;
     margin-bottom: 30px;
-    font-weight: 500;
 }
 
-/* Buttons */
-.go-back-btn {
-    box-shadow: 0 4px 15px rgba(114, 46, 209, 0.3);
-    border-radius: 25px;
-    padding-left: 30px;
-    padding-right: 30px;
+/* Icon & Animation */
+.not-found-icon {
+    font-size: 100px;
+    color: #ff4d4f;
+    animation: float 3s ease-in-out infinite;
 }
 
-.report-btn {
-    border-radius: 25px;
-    color: #666;
+.shadow {
+    width: 60px;
+    height: 10px;
+    background: rgba(0, 0, 0, 0.1);
+    margin: 10px auto 30px;
+    border-radius: 50%;
+    animation: shadowPulse 3s ease-in-out infinite;
 }
 
-/* Animations */
+/* Responsive Button Layout */
+.action-buttons {
+    display: flex;
+    flex-direction: column; /* Stack buttons by default (mobile) */
+    gap: 15px;
+}
+
+.btn-wrapper {
+    width: 100%;
+}
+
+/* Desktop Styles */
+@media (min-width: 576px) {
+    .title {
+        font-size: 120px;
+    }
+
+    .action-buttons {
+        flex-direction: row; /* Side by side on larger screens */
+        justify-content: center;
+    }
+
+    .btn-wrapper {
+        width: auto; /* Buttons take up only needed space */
+    }
+
+    .report-btn {
+        margin-left: 10px;
+    }
+}
+
+/* Keyframes for Floating Effect */
 @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-    100% { transform: translateY(0px); }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
 }
 
-@keyframes shadowScale {
-    0% { transform: scale(1); opacity: 0.2; }
-    50% { transform: scale(0.8); opacity: 0.1; }
-    100% { transform: scale(1); opacity: 0.2; }
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@keyframes shadowPulse {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.5); opacity: 0.2; }
 }

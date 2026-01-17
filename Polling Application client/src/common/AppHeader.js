@@ -1,112 +1,129 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import './AppHeader.css';
 import pollIcon from '../poll.svg';
-import { Layout, Menu, Dropdown, Icon, Avatar, Button } from 'antd';
+import { Layout, Menu, Dropdown, Icon, Avatar, Button, Drawer, Grid } from 'antd';
 
 const { Header } = Layout;
+const { useBreakpoint } = Grid;
 
 const AppHeader = (props) => {
+    const [visible, setVisible] = useState(false);
+    const screens = useBreakpoint(); // Detects screen size (xs, sm, md, lg)
+
+    const showDrawer = () => setVisible(true);
+    const onClose = () => setVisible(false);
+
     const handleMenuClick = ({ key }) => {
         if (key === "logout") {
             props.onLogout();
         }
+        setVisible(false); // Close drawer on click
     };
 
-    let menuItems;
-    if (props.currentUser) {
-        menuItems = [
-            <Menu.Item key="/">
-                <Link to="/">
-                    <Icon type="home" className="nav-icon" /> Home
-                </Link>
-            </Menu.Item>,
-            <Menu.Item key="/poll/new">
-                <Link to="/poll/new">
-                    <img src={pollIcon} alt="poll" className="poll-icon" /> Create Poll
-                </Link>
-            </Menu.Item>,
-            <Menu.Item key="/profile" className="profile-menu">
-                <ProfileDropdownMenu
-                    currentUser={props.currentUser}
-                    handleMenuClick={handleMenuClick}
-                />
-            </Menu.Item>
-        ];
-    } else {
-        menuItems = [
-            <Menu.Item key="/login">
-                <Link to="/login">
-                    <Button type="primary" ghost>Login</Button>
-                </Link>
-            </Menu.Item>,
-            <Menu.Item key="/signup">
-                <Link to="/signup">
-                    <Button type="primary">Signup</Button>
-                </Link>
-            </Menu.Item>
-        ];
-    }
+    // --- Menu Items Logic ---
+    const getMenuItems = () => {
+        if (props.currentUser) {
+            return [
+                <Menu.Item key="/">
+                    <Link to="/" onClick={onClose}><Icon type="home" /> Home</Link>
+                </Menu.Item>,
+                <Menu.Item key="/poll/new">
+                    <Link to="/poll/new" onClick={onClose}>
+                        <img src={pollIcon} alt="poll" className="poll-icon" style={{ width: 18, marginRight: 8 }} /> 
+                        Create Poll
+                    </Link>
+                </Menu.Item>,
+                <Menu.Item key="/profile" className="profile-menu">
+                    <ProfileDropdownMenu 
+                        currentUser={props.currentUser} 
+                        handleMenuClick={handleMenuClick} 
+                        isMobile={!screens.md}
+                    />
+                </Menu.Item>
+            ];
+        } else {
+            return [
+                <Menu.Item key="/login">
+                    <Link to="/login" onClick={onClose}><Button type="primary" ghost>Login</Button></Link>
+                </Menu.Item>,
+                <Menu.Item key="/signup">
+                    <Link to="/signup" onClick={onClose}><Button type="primary">Signup</Button></Link>
+                </Menu.Item>
+            ];
+        }
+    };
 
     return (
         <Header className="app-header">
-            <div className="container">
+            <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div className="app-title">
                     <Link to="/">
                         <Icon type="api" style={{ marginRight: '8px', color: '#722ed1' }} />
                         Polling App
                     </Link>
                 </div>
-                <Menu
-                    className="app-menu"
-                    mode="horizontal"
-                    selectedKeys={[props.location.pathname]}
-                    style={{ lineHeight: '64px' }}
-                >
-                    {menuItems}
-                </Menu>
+
+                {/* Desktop Menu: Hidden on small screens */}
+                {screens.md ? (
+                    <Menu
+                        className="app-menu"
+                        mode="horizontal"
+                        selectedKeys={[props.location.pathname]}
+                        style={{ lineHeight: '64px', borderBottom: 'none' }}
+                    >
+                        {getMenuItems()}
+                    </Menu>
+                ) : (
+                    /* Mobile Hamburger: Visible on small screens */
+                    <>
+                        <Button type="primary" onClick={showDrawer} icon="menu" />
+                        <Drawer
+                            title="Menu"
+                            placement="right"
+                            onClose={onClose}
+                            visible={visible}
+                        >
+                            <Menu
+                                mode="vertical"
+                                selectedKeys={[props.location.pathname]}
+                                style={{ borderRight: 'none' }}
+                            >
+                                {getMenuItems()}
+                            </Menu>
+                        </Drawer>
+                    </>
+                )}
             </div>
         </Header>
     );
 }
 
-const ProfileDropdownMenu = (props) => {
+const ProfileDropdownMenu = ({ currentUser, handleMenuClick, isMobile }) => {
+    const initial = currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'U';
+
     const dropdownMenu = (
-        <Menu onClick={props.handleMenuClick} className="profile-dropdown-menu">
-            <Menu.Item key="user-info" className="dropdown-item" disabled>
-                <div className="user-full-name-info">
-                    {props.currentUser.name}
-                </div>
-                <div className="username-info">
-                    @{props.currentUser.username}
-                </div>
+        <Menu onClick={handleMenuClick} className="profile-dropdown-menu">
+            <Menu.Item key="user-info" disabled>
+                <div style={{ fontWeight: 'bold' }}>{currentUser.name}</div>
+                <div style={{ fontSize: '12px' }}>@{currentUser.username}</div>
             </Menu.Item>
             <Menu.Divider />
-            <Menu.Item key="profile" className="dropdown-item">
-                <Link to={`/users/${props.currentUser.username}`}>
-                    <Icon type="user" className="dropdown-icon" /> Profile
-                </Link>
+            <Menu.Item key="profile">
+                <Link to={`/users/${currentUser.username}`}><Icon type="user" /> Profile</Link>
             </Menu.Item>
-            <Menu.Item key="logout" className="dropdown-item">
-                <Icon type="logout" className="dropdown-icon" /> Logout
+            <Menu.Item key="logout">
+                <Icon type="logout" /> Logout
             </Menu.Item>
         </Menu>
     );
 
-    // Get the first letter of the name for the Avatar
-    const initial = props.currentUser.name ? props.currentUser.name.charAt(0).toUpperCase() : 'U';
-
+    // On Mobile, we might want to just show the items directly or use the dropdown
     return (
-        <Dropdown
-            overlay={dropdownMenu}
-            trigger={['click']}
-            getPopupContainer={() => document.getElementsByClassName('profile-menu')[0]}>
+        <Dropdown overlay={dropdownMenu} trigger={['click']}>
             <a className="ant-dropdown-link" href="#!" onClick={e => e.preventDefault()}>
-                {/* Feature: Colorful Avatar with User's Initial */}
-                <Avatar style={{ backgroundColor: '#87d068', marginRight: 8 }}>
-                    {initial}
-                </Avatar>
-                <Icon type="down" />
+                <Avatar style={{ backgroundColor: '#87d068', marginRight: 8 }}>{initial}</Avatar>
+                {!isMobile && <Icon type="down" />}
             </a>
         </Dropdown>
     );

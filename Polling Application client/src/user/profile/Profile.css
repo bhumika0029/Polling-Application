@@ -1,187 +1,121 @@
-/* Profile.css */
-
-/* Main Container */
-.profile {
-    padding: 40px 0;
-    background: #f0f2f5;
-    min-height: 100vh;
-}
-
-/* User Card Wrapper */
-.user-profile-card {
-    background: #fff;
-    max-width: 800px; /* Limit width on desktop */
+.profile-container {
+    max-width: 1000px;
     margin: 0 auto;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    overflow: hidden; /* Ensures cover bg respects border radius */
+    padding: 0 15px 50px;
 }
 
-/* --- Header Section (Cover + Overlap) --- */
-.user-profile-header-wrapper {
+/* Header Section */
+.user-profile-header-section {
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 80px; /* Space for the overlapping avatar */
 }
 
 .user-cover-bg {
-    height: 160px;
-    background: linear-gradient(135deg, #1890ff 0%, #0050b3 100%);
+    height: 150px;
+    background: linear-gradient(45deg, #722ed1, #1890ff);
+    border-radius: 0 0 12px 12px;
 }
 
-/* The container that holds avatar + text */
-.user-info-overlap-container {
+.user-header-content {
+    position: absolute;
+    bottom: -60px;
+    left: 40px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    margin-top: -60px; /* Pulls the content UP into the cover */
-    padding: 0 20px;
-}
-
-/* Avatar Box */
-.user-avatar-box {
-    padding: 5px;
-    background: #fff; /* White border effect */
-    border-radius: 50%;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    z-index: 2;
+    align-items: flex-end;
 }
 
 .user-avatar-circle {
-    width: 120px;
-    height: 120px;
-    line-height: 120px;
-    font-size: 48px;
-    border-radius: 50%;
+    width: 120px !important;
+    height: 120px !important;
+    line-height: 120px !important;
+    font-size: 48px !important;
+    border: 5px solid #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-/* User Text Info */
-.user-names-container {
-    text-align: center;
-    margin-top: 15px;
+.user-info-text {
+    margin-left: 20px;
+    padding-bottom: 10px;
 }
 
 .full-name {
-    font-size: 28px;
+    margin: 0;
+    font-size: 24px;
     font-weight: 700;
-    color: #333;
-    margin-bottom: 5px;
 }
 
 .username {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 10px;
+    color: #8c8c8c;
+    margin: 0;
 }
 
-.user-joined-date {
-    color: #888;
-    font-size: 14px;
-}
-
-/* --- Stats Row --- */
-.user-stats-row {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
+/* Stats Section */
+.user-stats-section {
+    margin-bottom: 30px;
 }
 
 .stat-card {
-    background: #fff;
-    border-radius: 8px;
-    transition: transform 0.3s;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-/* Override AntD Card body padding */
-.stat-card .ant-card-body {
-    padding: 20px !important;
-}
-
-.stat-content {
+.stat-flex {
     display: flex;
     align-items: center;
 }
 
-.stat-icon-bg {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
+.stat-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 20px;
     margin-right: 15px;
 }
 
 .primary-blue { background: #e6f7ff; color: #1890ff; }
-.success-teal { background: #e6fffb; color: #52c41a; }
+.success-teal { background: #e6fffb; color: #13c2c2; }
 
 .stat-value {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
-    color: #333;
-    line-height: 1.2;
+    line-height: 1;
 }
 
-.stat-title {
+.stat-label {
+    color: #8c8c8c;
     font-size: 13px;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
-/* --- Tabs Section --- */
-.user-poll-details {
-    padding: 0 20px 40px 20px;
-}
-
-.profile-tabs .ant-tabs-nav {
-    font-weight: 500;
-}
-
-/* --- MOBILE RESPONSIVE TWEAKS --- */
+/* Mobile Responsiveness */
 @media (max-width: 576px) {
-    .profile {
-        padding: 0; /* Remove outer padding */
+    .user-header-content {
+        left: 0;
+        right: 0;
+        bottom: -110px;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
 
-    .user-profile-card {
-        border-radius: 0; /* Full width flat design */
-        box-shadow: none;
+    .user-info-text {
+        margin-left: 0;
+        margin-top: 10px;
     }
 
-    /* Adjust header heights */
-    .user-cover-bg {
-        height: 120px;
-    }
-
-    .user-info-overlap-container {
-        margin-top: -50px;
+    .user-profile-header-section {
+        margin-bottom: 130px;
     }
 
     .user-avatar-circle {
-        width: 100px;
-        height: 100px;
-        line-height: 100px;
-        font-size: 40px;
+        width: 100px !important;
+        height: 100px !important;
+        font-size: 36px !important;
     }
 
-    .full-name {
-        font-size: 24px;
-    }
-
-    /* Stack Stats Cards */
-    .user-stats-row .ant-col {
-        margin-bottom: 15px; /* Add space between stacked cards */
-    }
-
-    .user-stats-row .ant-col:last-child {
-        margin-bottom: 0;
-    }
-
-    /* Adjust tabs padding */
-    .user-poll-details {
-        padding: 0 10px 20px 10px;
+    .tab-text {
+        display: none; /* Only icons on small mobile tabs */
     }
 }

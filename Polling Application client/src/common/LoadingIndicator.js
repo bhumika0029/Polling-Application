@@ -1,24 +1,30 @@
 import React from 'react';
 import { Spin, Icon } from 'antd';
-import './LoadingIndicator.css'; // Import the new CSS animations
+import './LoadingIndicator.css';
 
 export default function LoadingIndicator(props) {
-    // 1. Custom colorful spinner icon
+    const { size, text, color } = props;
+
     const antIcon = (
         <Icon 
             type="loading-3-quarters" 
-            style={{ fontSize: 40, color: '#722ed1' }} 
+            className="spinner-icon"
+            style={{ 
+                fontSize: size === 'small' ? 24 : 40, 
+                color: color || '#722ed1' 
+            }} 
             spin 
         />
     );
 
     return (
-        <div className="loading-container">
-            <Spin indicator={antIcon} />
-            {/* 2. Animated Text with Fallback */}
-            <h3 className="loading-text">
-                {props.text || "Loading..."}
-            </h3>
+        <div className={`loading-container ${size === 'small' ? 'small-loader' : 'full-page'}`}>
+            <div className="loading-content">
+                <Spin indicator={antIcon} />
+                <h3 className="loading-text">
+                    {text || "Loading..."}
+                </h3>
+            </div>
         </div>
     );
 }

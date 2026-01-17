@@ -1,129 +1,72 @@
-/* Poll.css */
-
-/* Main Card */
 .poll-content {
-    background: #fff;
+    background-color: #fff;
     padding: 20px;
-    border-radius: 4px;
-    margin-bottom: 30px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s;
-}
-
-/* Header Section */
-.poll-header {
+    border-radius: 10px;
+    border: 1px solid #f0f0f0;
     margin-bottom: 20px;
-}
-
-/* Flex Container for Avatar + Name vs Status + Share */
-.poll-header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start; /* Aligns items to top so they don't stretch */
-    flex-wrap: wrap; /* CRITICAL: Allows items to wrap on mobile */
-    gap: 10px;
 }
 
 .poll-creator-info {
     display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap; /* Allows tags to wrap on very small screens */
+    margin-bottom: 15px;
+}
+
+.creator-link {
+    display: flex;
     align-items: center;
+    color: #444;
 }
 
 .creator-details {
+    margin-left: 10px;
     display: flex;
     flex-direction: column;
-    margin-left: 10px;
-    line-height: 1.3;
 }
 
 .poll-creator-name {
-    font-size: 16px;
     font-weight: 600;
-    color: #333;
+    font-size: 14px;
 }
 
 .poll-creation-date {
     font-size: 12px;
-    color: #888;
-}
-
-.poll-actions {
-    display: flex;
-    align-items: center;
-}
-
-.share-icon {
-    font-size: 18px;
-    color: #1890ff;
-    cursor: pointer;
-    padding: 5px;
-    transition: color 0.3s;
-}
-
-.share-icon:hover {
-    color: #096dd9;
+    color: #8c8c8c;
 }
 
 .poll-question {
-    margin-top: 15px;
     font-size: 18px;
-    color: #333;
-    font-weight: 500;
-    word-break: break-word; /* Prevents long words from breaking layout */
+    font-weight: 700;
+    color: #262626;
+    margin: 15px 0;
+    word-break: break-word;
 }
 
-/* Choices Section */
-.poll-choices {
-    margin-bottom: 20px;
-}
-
+/* Choice Radio Styling */
 .poll-choice-radio-group {
-    display: flex;
-    flex-direction: column;
     width: 100%;
 }
 
 .poll-choice-radio {
-    display: block;
+    display: block !important;
+    width: 100%;
+    margin-bottom: 12px !important;
     padding: 12px;
-    margin-bottom: 8px;
-    background: #f9f9f9;
-    border-radius: 4px;
     border: 1px solid #e8e8e8;
-    transition: all 0.2s;
-    font-size: 15px;
-    white-space: normal; /* Allows text to wrap */
-    height: auto; /* Overrides default height to fit wrapped text */
+    border-radius: 6px;
+    transition: all 0.3s;
+    height: auto !important;
+    white-space: normal !important;
 }
 
 .poll-choice-radio:hover {
-    background: #e6f7ff;
     border-color: #1890ff;
+    background-color: #f0f7ff;
 }
 
-/* Footer Section */
-.poll-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #f0f0f0;
-    padding-top: 15px;
-    flex-wrap: wrap; /* Allows wrapping on very small screens */
-    gap: 15px;
-}
-
-.poll-footer-meta {
-    color: #888;
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-}
-
-.separator {
-    margin: 0 8px;
-}
-
-/* Completed/Voted Result Styles */
+/* Results Styling */
 .cv-poll-choice {
     margin-bottom: 15px;
 }
@@ -131,58 +74,46 @@
 .cv-choice-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 5px;
-    font-size: 15px;
-    color: #333;
+    margin-bottom: 4px;
+    font-size: 14px;
 }
 
-/* Customizing Ant Design Progress Bar */
-.ant-progress-text {
-    font-size: 13px !important;
-    color: #666 !important;
+.cv-choice-text {
+    font-weight: 500;
+    padding-right: 10px;
 }
 
 .cv-choice-count {
+    color: #8c8c8c;
     font-size: 12px;
-    color: #999;
-    text-align: right;
-    margin-top: 2px;
+    flex-shrink: 0;
 }
 
-/* --- MOBILE RESPONSIVE TWEAKS --- */
-@media (max-width: 576px) {
-    .poll-content {
-        padding: 15px; /* Reduce padding to save space */
-        margin-bottom: 20px;
-    }
+/* Footer Styling */
+.poll-footer {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
 
-    .poll-header-top {
-        flex-direction: column; /* Stack Avatar and Status on top of each other */
-        align-items: flex-start;
-    }
+.poll-footer-meta {
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+    color: #8c8c8c;
+    font-size: 13px;
+}
 
-    .poll-actions {
-        margin-top: 10px; /* Add space when stacked */
-        width: 100%;
-        justify-content: space-between; /* Push status and share icon apart */
-    }
-
-    .poll-question {
-        font-size: 16px; /* Slightly smaller text */
-    }
-
+/* Desktop Adjustment */
+@media (min-width: 576px) {
     .poll-footer {
-        flex-direction: column-reverse; /* Put Meta info (votes/time) ABOVE the Vote button on mobile? Or keep as is. */
-        align-items: flex-start;
-    }
-
-    .vote-button {
-        width: 100%; /* Full width button on mobile is easier to tap */
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
     }
     
-    .poll-footer-meta {
-        width: 100%;
-        justify-content: space-between; /* Spread stats across width */
-        margin-bottom: 10px; /* Add space if button is below */
+    .vote-button {
+        width: auto !important;
     }
 }

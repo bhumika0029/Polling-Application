@@ -2,17 +2,25 @@ import React, { useEffect } from 'react';
 import { Route, Redirect } from "react-router-dom";
 import { notification } from 'antd';
 
-// Feature 1: A dedicated component to handle the Redirect + Notification logic
+// Feature 1: Responsive Redirect Component
 const RedirectToLogin = ({ location }) => {
     
-    // Use useEffect to trigger the notification only once when this component mounts
     useEffect(() => {
+        // We detect screen size to adjust notification placement
+        const isMobile = window.innerWidth <= 768;
+
         notification.warning({
-            message: 'Polling App',
-            description: 'You need to be logged in to access this page.',
+            message: 'Access Denied',
+            description: 'Please login to continue.',
             duration: 3,
+            // Placement: Top-right for desktop, Top for mobile (better visibility)
+            placement: isMobile ? 'top' : 'topRight',
+            style: {
+                borderRadius: '8px',
+                marginTop: isMobile ? '10px' : '0'
+            }
         });
-    }, []); // Empty dependency array means this runs once on mount
+    }, []); 
 
     return (
         <Redirect
@@ -29,10 +37,8 @@ const PrivateRoute = ({ component: Component, authenticated, ...rest }) => (
         {...rest}
         render={props =>
             authenticated ? (
-                // If authenticated, render the requested component
                 <Component {...rest} {...props} />
             ) : (
-                // Feature 2: If not, render our smart Redirect component
                 <RedirectToLogin location={props.location} />
             )
         }

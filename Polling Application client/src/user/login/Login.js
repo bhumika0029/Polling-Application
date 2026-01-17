@@ -9,9 +9,11 @@ const Login = (props) => {
     return (
         <div className="login-container">
             <div className="login-content">
-                <h1 className="page-title">Welcome Back</h1>
-                <div className="login-illustration">
-                    <Icon type="user" style={{ fontSize: '64px', color: '#722ed1' }} />
+                <div className="login-header">
+                    <h1 className="page-title">Welcome Back</h1>
+                    <div className="login-illustration">
+                        <Icon type="user" style={{ fontSize: '64px', color: '#722ed1' }} />
+                    </div>
                 </div>
                 <LoginForm onLogin={props.onLogin} />
             </div>
@@ -20,133 +22,91 @@ const Login = (props) => {
 }
 
 const LoginForm = (props) => {
-    // 1. State Management (Unchanged)
     const [usernameOrEmail, setUsernameOrEmail] = useState({ value: '', validateStatus: 'success', errorMsg: null });
     const [password, setPassword] = useState({ value: '', validateStatus: 'success', errorMsg: null });
     const [loading, setLoading] = useState(false);
 
-    // 2. Handlers (Unchanged)
-    const handleInputChange = (event, validationFun) => {
-        const target = event.target;
-        const inputName = target.name;
-        const inputValue = target.value;
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        const validation = validateInput(value);
 
-        if (inputName === 'usernameOrEmail') {
-            setUsernameOrEmail({
-                value: inputValue,
-                ...validateInput(inputValue)
-            });
-        } else if (inputName === 'password') {
-            setPassword({
-                value: inputValue,
-                ...validateInput(inputValue)
-            });
+        if (name === 'usernameOrEmail') {
+            setUsernameOrEmail({ value, ...validation });
+        } else if (name === 'password') {
+            setPassword({ value, ...validation });
         }
     };
 
     const validateInput = (input) => {
-        if(input.length === 0) {
-            return { validateStatus: 'error', errorMsg: null };
-        }
+        if(input.length === 0) return { validateStatus: 'error', errorMsg: 'This field is required' };
         return { validateStatus: 'success', errorMsg: null };
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
         if(usernameOrEmail.value.length === 0 || password.value.length === 0) {
-             notification.error({
-                message: 'Polling App',
-                description: 'Please fill in all fields.'
-            });
-            return;
+             notification.error({ message: 'Error', description: 'Please fill in all fields.' });
+             return;
         }
 
         setLoading(true);
-
-        const loginRequest = {
-            usernameOrEmail: usernameOrEmail.value,
-            password: password.value
-        };
-
-        login(loginRequest)
+        login({ usernameOrEmail: usernameOrEmail.value, password: password.value })
             .then(response => {
                 localStorage.setItem(ACCESS_TOKEN, response.accessToken);
                 props.onLogin();
-                setLoading(false);
             })
             .catch(error => {
                 setLoading(false);
-                if (error.status === 401) {
-                    notification.error({
-                        message: 'Polling App',
-                        description: 'Incorrect username or password. Please try again!'
-                    });
-                } else {
-                    notification.error({
-                        message: 'Polling App',
-                        description: error.message || 'Sorry! Something went wrong. Please try again!'
-                    });
-                }
+                notification.error({
+                    message: 'Login Failed',
+                    description: error.status === 401 ? 'Incorrect credentials.' : (error.message || 'Server error.')
+                });
             });
     };
 
     return (
         <Form onSubmit={handleSubmit} className="login-form">
-            <Form.Item 
-                validateStatus={usernameOrEmail.validateStatus}
-                help={usernameOrEmail.errorMsg}
-                hasFeedback
-            >
+            <Form.Item validateStatus={usernameOrEmail.validateStatus} help={usernameOrEmail.errorMsg} hasFeedback>
                 <Input
-                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    prefix={<Icon type="user" className="input-icon" />}
                     size="large"
                     name="usernameOrEmail"
                     value={usernameOrEmail.value}
-                    onChange={(event) => handleInputChange(event, validateInput)}
+                    onChange={handleInputChange}
                     placeholder="Username or Email"
                 />
             </Form.Item>
             
-            <Form.Item 
-                validateStatus={password.validateStatus}
-                help={password.errorMsg}
-                hasFeedback
-            >
+            <Form.Item validateStatus={password.validateStatus} help={password.errorMsg} hasFeedback>
                 <Input
-                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    prefix={<Icon type="lock" className="input-icon" />}
                     size="large"
                     name="password"
                     type="password"
                     value={password.value}
-                    onChange={(event) => handleInputChange(event, validateInput)}
+                    onChange={handleInputChange}
                     placeholder="Password"
                 />
             </Form.Item>
 
-            {/* Feature: Remember Me & Forgot Password - Removed inline floats for Flexbox */}
-            <Form.Item style={{marginBottom: '15px'}}> 
-                <div className="remember-forgot-row">
-                    <Checkbox>Remember me</Checkbox>
-                    <a className="login-form-forgot" href="#!">
-                        Forgot password?
-                    </a>
+            <Form.Item> 
+                <div className="remember-forgot-container">
+                    <Checkbox className="remember-me">Remember me</Checkbox>
+                    <Link className="forgot-link" to="/forgot-password">Forgot password?</Link>
                 </div>
             </Form.Item>
 
-            <Form.Item style={{marginBottom: 0}}>
+            <Form.Item style={{ marginBottom: 0 }}>
                 <Button 
                     type="primary" 
                     htmlType="submit" 
                     size="large" 
-                    className="login-form-button"
                     loading={loading}
                     block
                 >
                     Log in
                 </Button>
-                
-                <div style={{ marginTop: '15px', textAlign: 'center' }}>
+                <div className="register-link">
                     Or <Link to="/signup">register now!</Link>
                 </div>
             </Form.Item>
